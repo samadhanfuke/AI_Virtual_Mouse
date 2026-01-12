@@ -154,26 +154,25 @@ python3 main.py
 
 ## 🧪 How It Works (Logic Explanation)
 
-### 1️⃣ Eye Detection
+### 1️⃣ Face & Landmark Detection
+* The system captures frames from the webcam using OpenCV.
+* Frames are flipped horizontally for a mirror effect (Natural Interaction).
+* **MediaPipe Face Landmarker** processes the RGB frame to detect **478 facial landmarks**.
+* We specifically extract landmarks for the **Left Eye**, **Right Eye**, and **Irises**.
 
-* Webcam captures live video
-* MediaPipe Face Landmarker detects facial landmarks
-* Eye and iris landmarks are extracted
+### 2️⃣ Gaze & Cursor Control
+* **Iris Tracking**: We calculate the **centroid** (center point) of the specific eye's iris landmarks.
+* **Screen Mapping**: The iris position is mapped from the camera's resolution to the monitor's screen resolution (e.g., 1920x1080).
+* **Smoothing**: To ensure usability, we apply a mathematical **Moving Average** filter. This reduces the "jitter" caused by webcam noise or micro-movements.
+* **Active Zone**: A subset of the camera frame is mapped to the full screen, allowing you to reach screen edges comfortably without straining your eyes.
 
-### 2️⃣ Cursor Movement
-
-* Iris position is mapped to screen coordinates
-* Cursor moves according to eye direction
-* Smoothing applied to avoid jitter (Configurable in `config.py`)
-
-### 3️⃣ Blink Detection
-
-* Eye Aspect Ratio (EAR) is calculated
-* EAR below threshold → blink detected
-* Gesture mapping:
-
-  * **Left eye blink** → Left click
-  * **Right eye blink** → Right click
+### 3️⃣ Blink Detection & Clicking
+* We use the **Eye Aspect Ratio (EAR)** geometry formula to detect blinks.
+* **Logic**: If `EAR < 0.14` (Threshold configured in `config.py`), the eye is considered **closed**.
+* **Debouncing**: The system waits for `2 consecutive frames` of closure to confirm a deliberate blink, preventing accidental clicks.
+* **Action Trigger** (Mirrored):
+  * **Left Eye Blink** (Physical) → **Left Click**
+  * **Right Eye Blink** (Physical) → **Right Click**
 
 ---
 
