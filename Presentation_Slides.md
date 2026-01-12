@@ -1,94 +1,98 @@
 # 📊 Presentation Slides: AI Virtual Mouse
 
 ## **Slide 1: Title Slide**
-*   **Project Title**: AI Virtual Mouse Using Eye-Gesture Recognition
-*   **Presented By**: Samadhan Fuke
-*   **Guide/Dept**: Dept. of Computer Science / AI-DS
-*   *(Add College Logo)*
+# AI Virtual Mouse Using Eye-Gesture Recognition
+**Presented By**: Samadhan Fuke  
+**Department**: Computer Science / AI-DS  
+*(Add College Logo Here)*
 
 ---
 
 ## **Slide 2: Introduction**
-*   **What is it?**: A hands-free system to control the mouse cursor using eye movements and blinks.
-*   **Target Audience**: Amputees, paralysis patients, and HCI researchers.
-*   **Key Idea**: Replace physical hardware with Computer Vision (Software).
+*   **Concept**: A hands-free system to control the computer mouse using only eye movements and blinking.
+*   **Motivation**: To assist individuals with upper-limb disabilities (amputees, ALS patients) who cannot use physical peripherals.
+*   **Innovation**: Replaces expensive hardware (eye-trackers costing $1000+) with a simple webcam and AI software.
 
 ---
 
 ## **Slide 3: Problem Statement**
-*   **Current Limitation**: Physical mice require fine motor control of hands. Usage is impossible for people with upper-limb disabilities.
-*   **Solution**: Use the **Eyes** (which are almost always active) as a pointer device.
-*   **Challenge**: Doing this in real-time on a standard consumer laptop webcam.
+*   **The Problem**: Traditional mice require fine motor skills. Prolonged usage causes Repetitive Strain Injury (RSI).
+*   **The Need**: A contactless, intuitive, and accessible input method.
+*   **The Approach**: utilize Computer Vision to track the "gaze" and "intent" of the user in real-time.
 
 ---
 
 ## **Slide 4: Objectives**
-1.  Real-time Face & Eye detection.
-2.  Cursor movement based on Iris position.
-3.  Click actions (Left/Right) based on Eye Blinks.
-4.  Low latency and high accuracy.
+1.  **Face Tracking**: Robust detection of face and eye landmarks in real-time.
+2.  **Cursor Control**: Accurate mapping of Iris movement to Screen coordinates.
+3.  **Gesture Action**: Blink detection for Left/Right clicks.
+4.  **Efficiency**: Must run on standard consumer CPUs without dedicated GPUs.
 
 ---
 
-## **Slide 5: Technology Stack**
-*   **Python 3**: Core Logic.
-*   **OpenCV**: Image Acquisition & Processing.
-*   **MediaPipe**: The "Brains" - Deep Learning model for Face Mesh (478 Landmarks).
-*   **PyAutoGUI**: The "Hands" - Controlling the OS mouse.
+## **Slide 5: System Architecture**
+
+```mermaid
+graph LR
+    Input[Webcam] --> Process[CV Processing]
+    Process --> Detect[Face Mesh]
+    Detect --> decision{Gesture?}
+    decision -->|Move| Cursor[Move Mouse]
+    decision -->|Blink| Click[Click Mouse]
+```
+
+*   **Input**: Video Stream.
+*   **Core**: MediaPipe FaceLandmarker.
+*   **Output**: Operating System Events (Mouse events).
 
 ---
 
-## **Slide 6: System Architecture (Flowchart)**
-1.  **Start** Webcam.
-2.  **Detect** Face Mesh.
-3.  **Extract** Eye ROI (Region of Interest).
-4.  **Calculate** EAR (Eye Aspect Ratio).
-    *   If EAR < 0.14 → **Click**.
-5.  **Calculate** Iris Center.
-    *   Map to Screen Coordinates → **Move Cursor**.
-6.  **Repeat**.
+## **Slide 6: Methodology - Eye Tracking**
+*   **Landmark Extraction**: We extract 478 points.
+*   **Iris Tracking**: Points 468-477.
+*   **Centroid Calculation**: We find the mathematical center of the pupil.
+*   **Interpolation**: The camera coordinates (640x480) are scaled to monitor coordinates (1920x1080) using `np.interp`.
 
 ---
 
-## **Slide 7: Implementation Logic**
-*   **Blink Detection**:
-    *   Uses geometric distance between eyelids.
-    *   **Formula**: EAR = (Vertical Dist) / (Horizontal Dist).
-*   **Cursor Mapping**:
-    *   We map a small "Active Zone" on the camera to the full HD screen.
-    *   Includes **Smoothing** (Math filter) to stop the cursor from shaking.
+## **Slide 7: Methodology - Blink Detection**
+*   **EAR (Eye Aspect Ratio)**:
+    *   Ratio of (Height of Eye) / (Width of Eye).
+    *   **Open Eye**: EAR ≈ 0.25
+    *   **Closed Eye**: EAR < 0.14
+*   **Thresholding**: If EAR drops below 0.14 for 2 frames, a click is triggered.
+    *   *Left Eye* = Left Click.
+    *   *Right Eye* = Right Click.
 
 ---
 
-## **Slide 8: Advantages & Applications**
-*   **Advantages**:
-    *   No external sensors/wearables needed.
-    *   Hygienic (Contactless).
-    *   Cost-effective (Free software).
-*   **Applications**:
-    *   Assistive Technology.
-    *   Public Kiosks (prevent germ spread).
-    *   Gaming/VR interaction.
+## **Slide 8: Tools & Technologies**
+*   **Python 3**: For rapid prototyping and logic.
+*   **OpenCV**: For image manipulation (flipping, resizing).
+*   **MediaPipe**: Google's state-of-the-art ML graph for face geometry.
+*   **PyAutoGUI**: For controlling the mouse pointer.
 
 ---
 
-## **Slide 9: Results (Demo)**
-*   *(Include Screenshot of the App running with landmarks specific)*
-*   Achieved **20+ FPS** on CPU.
-*   Successfully performs Left/Right clicks.
-*   Fail-safe mechanism implemented for safety.
+## **Slide 9: Challenges & Solutions**
+| Challenge | Solution |
+| :--- | :--- |
+| **Jittery Cursor** | Implemented **Smoothing Algorithm** (Moving Average). |
+| **False Clicks** | Adjustable **EAR Threshold** and Debouncing. |
+| **Mirrored Input** | Swapped Left/Right click logic to match visual mirror. |
 
 ---
 
-## **Slide 10: Conclusion & Future Scope**
-*   **Conclusion**: System successfully enables hands-free computer interaction.
-*   **Future Scope**:
-    *   Voice integration for typing.
-    *   Deep Learning for complex gestures (wink vs blink).
-    *   Mobile App version.
+## **Slide 10: Conclusion**
+*   The system offers a **viable, low-cost** alternative to physical mice.
+*   It is **accessible**, ** hygienic**, and **software-defined**.
+*   Future work involves adding **Speech-to-Text** for a complete virtual interface.
 
 ---
 
-## **Slide 11: End**
-*   **Thank You!**
-*   **Questions?**
+## **Slide 11: Demo & Q&A**
+
+*(Insert Screenshot or Video Demo Here)*
+
+**Thank You!**  
+*Any Questions?*
