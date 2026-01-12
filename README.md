@@ -188,6 +188,27 @@ $$
 
 ---
 
+## 🔍 Implementation Insights
+
+### 1️⃣ Mirrored Interaction
+The camera feed is **flipped horizontally** (mirrored) to make the interaction intuitive (e.g., looking left moves cursor left).
+* **Challenge**: MediaPipe detects landmarks relative to the *image*.
+* **Solution**: We swapped the click logic in `main.py`.
+    * **Physical Left Eye** → Appears as "Right Eye" in frame → Triggers **Left Click**.
+    * **Physical Right Eye** → Appears as "Left Eye" in frame → Triggers **Right Click**.
+
+### 2️⃣ Cursor Smoothing
+To prevent the cursor from jittering due to micro-movements of the eye/head, we implemented a **Moving Average** smoothing algorithm in `src/cursor_controller.py`.
+* **Logic**: `current_pos = prev_pos + (target_pos - prev_pos) / smoothing_factor`
+* **Config**: `SMOOTHING_FACTOR = 5` (Found to be the sweet spot between responsiveness and stability).
+
+### 3️⃣ Blink Sensitivity
+We fine-tuned the `BLINK_THRESHOLD` to **0.14**.
+* **Reason**: Standard values (0.2-0.3) triggered false clicks during normal looking.
+* **Debounce**: A blink must persist for `BLINK_CONSEC_FRAMES` (2 frames) to register as a valid click.
+
+---
+
 ## ⚠️ Important Notes
 
 * Use project in **well-lit environment**
