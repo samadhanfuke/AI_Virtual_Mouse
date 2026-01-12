@@ -62,11 +62,13 @@ def main():
                     left_click, right_click = gesture_proc.detect_blink(left_ear, right_ear)
                     
                     if left_click:
-                        print("Left Click")
-                        cursor_ctrl.click('left')
-                    if right_click:
+                        # In a mirrored frame, MP's "Left Eye" is the User's Right Eye
                         print("Right Click")
                         cursor_ctrl.click('right')
+                    if right_click:
+                        # In a mirrored frame, MP's "Right Eye" is the User's Left Eye
+                        print("Left Click")
+                        cursor_ctrl.click('left')
                         
                     # 3. Mouse Movement (Iris Tracking)
                     left_iris = eye_tracker.get_landmark_coords(face_landmarks, frame_w, frame_h, config.LEFT_IRIS)
