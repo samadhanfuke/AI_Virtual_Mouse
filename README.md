@@ -1,74 +1,250 @@
-# AI Virtual Mouse
+# 🖱️ AI Virtual Mouse Using Eye-Gesture Recognition
 
-A real-time AI Virtual Mouse system that allows you to control the mouse cursor and perform clicks using eye movements and blink gestures. This project uses **OpenCV**, **MediaPipe** (Tasks API), and **PyAutoGUI**.
+## 📌 Project Overview
 
-## Features
+The **AI Virtual Mouse Using Eye-Gesture Recognition** is an AI-ML based computer vision project that allows users to control the mouse cursor using **eye movements and blinking gestures** instead of a physical mouse.
 
-- **Real-time Eye Tracking**: Controls mouse cursor using iris/face position.
-    - **Cursor Control**: Move your head/eyes to move the cursor. The system maps your face position to the screen active zone.
-- **Blink Detection**:
-    - **Left Eye Blink** → **Left Click**
-    - **Right Eye Blink** → **Right Click**
-- **Smooth Movement**: Uses moving average smoothing for stable cursor control.
-- **Visual Feedback**: Displays FPS, eye landmarks, and iris tracking on the camera feed.
-- **Fail-Safe**: Move mouse to any corner to instantly stop the program.
+This system uses a **webcam** to track eye landmarks in real time and converts eye gestures into mouse actions such as:
 
-## Technology Stack
+* Cursor movement
+* Left click
+* Right click
 
-- **Python 3.x**
-- **OpenCV** (Video processing)
-- **MediaPipe** (Face & Iris landmark detection via Tasks API)
-- **PyAutoGUI** (Mouse control)
-- **NumPy** (Mathematical operations)
+The project demonstrates concepts of **Artificial Intelligence, Machine Learning, Computer Vision, and Human–Computer Interaction (HCI)**.
 
-## Installation
+---
 
-1.  **Clone the Repository**
-    ```bash
-    git clone <repository_url>
-    cd AI_Virtual_Mouse
-    ```
+## 🎯 Key Features
 
-2.  **Install Dependencies**
-    Ensure you have Python installed. Then run:
-    ```bash
-    pip install -r requirements.txt
-    ```
+* Real-time eye tracking using webcam
+* Mouse movement controlled by iris position
+* Blink-based mouse click detection
+* No external hardware required
+* Works on **Windows & Linux**
+* Lightweight and easy to run
+* College-level AI-ML project (viva friendly)
 
-3.  **Model File**
-    The project requires `face_landmarker.task`.
-    - This file is included in the repository.
-    - If missing, run `python download_model.py` to fetch it.
+---
 
-## Usage
+## 🧠 Technologies Used
 
-1.  **Run the Application**
-    ```bash
-    python main.py
-    ```
+* **Python 3**
+* **OpenCV** – video processing
+* **MediaPipe** – face & eye landmark detection (Tasks API)
+* **NumPy** – numerical operations
+* **PyAutoGUI** – mouse control
+* **Math & Geometry** – blink detection logic
 
-2.  **Controls**
-    - **Navigation**: The camera feed is **mirrored** for natural interaction. Move your head Left/Right/Up/Down to move the cursor accordingly.
-    - **Clicking**:
-        - **Blink Left Eye**: Performs a Left Mouse Click.
-        - **Blink Right Eye**: Performs a Right Mouse Click.
-    - **Exit**: Press `q` on your keyboard while the camera window is focused.
+---
 
-## Configuration (`config.py`)
+## 📂 Project Structure
 
-You can tune the system performance in `config.py`:
+```
+AI_Virtual_Mouse/
+│
+├── main.py                  # Main execution file
+├── config.py                # Configuration settings (sensitivity, thresholds)
+├── requirements.txt         # Python dependencies
+├── README.md                # Project documentation
+├── face_landmarker.task     # MediaPipe Model File
+│
+└── src/
+    ├── eye_tracker.py       # Eye and iris tracking logic
+    ├── gesture_processor.py # Blink detection using EAR
+    ├── cursor_controller.py # Mouse movement & click actions
+    └── camera_manager.py    # Webcam video capture
+```
 
-- **`BLINK_THRESHOLD`**: Adjust sensitivity of blinking (Default: `0.14`). Lower this if you get random clicks; Raise it if clicks aren't registering.
-- **`SMOOTHING_FACTOR`**: Controls cursor lag vs. smoothness (Default: `5`).
-- **`MOUSE_SENSITIVITY`**: Multiplier for cursor range.
-- **`CAMERA_INDEX`**: Change if using an external webcam.
+---
 
-## Troubleshooting
+## ⚙️ System Requirements
 
-- **Cursor drifting / Jittery**: Increase `SMOOTHING_FACTOR` in `config.py`.
-- **Clicks not working**: Ensure lighting is good. Adjust `BLINK_THRESHOLD`.
-- **Crash with "FailSafeException"**: This is intentional. You moved the mouse to a corner. Restart the script.
-- **MediaPipe Error**: Ensure `face_landmarker.task` is present in the project folder.
+### Hardware
 
-## License
-This project is open-source. Feel free to modify and improve!
+* Laptop / Desktop
+* Webcam (inbuilt or external)
+* Minimum 4 GB RAM
+
+### Software
+
+* Python **3.8 or above**
+* Windows 10 / 11 **OR** Linux (Ubuntu/Debian recommended)
+
+---
+
+## 🖥️ Installation Instructions
+
+### 🔹 Step 1: Install Python
+
+Download and install Python from:
+👉 [https://www.python.org/downloads/](https://www.python.org/downloads/)
+
+⚠️ **Important:**
+While installing on Windows, **check the box**
+✅ *“Add Python to PATH”*
+
+Verify installation:
+
+```bash
+python --version
+```
+
+---
+
+### 🔹 Step 2: Clone or Download Project
+
+```bash
+git clone https://github.com/your-username/AI_Virtual_Mouse.git
+cd AI_Virtual_Mouse
+```
+
+OR
+Download ZIP → Extract → Open folder in terminal.
+
+---
+
+### 🔹 Step 3: Create Virtual Environment (Recommended)
+
+#### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+#### Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+### 🔹 Step 4: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+**Note:** If `face_landmarker.task` is missing, run:
+```bash
+python download_model.py
+```
+
+---
+
+## ▶️ How to Run the Project
+
+### Windows
+
+```bash
+python main.py
+```
+
+### Linux
+
+```bash
+python3 main.py
+```
+
+📷 **Allow webcam access when prompted**
+
+---
+
+## 🧪 How It Works (Logic Explanation)
+
+### 1️⃣ Eye Detection
+
+* Webcam captures live video
+* MediaPipe Face Landmarker detects facial landmarks
+* Eye and iris landmarks are extracted
+
+### 2️⃣ Cursor Movement
+
+* Iris position is mapped to screen coordinates
+* Cursor moves according to eye direction
+* Smoothing applied to avoid jitter (Configurable in `config.py`)
+
+### 3️⃣ Blink Detection
+
+* Eye Aspect Ratio (EAR) is calculated
+* EAR below threshold → blink detected
+* Gesture mapping:
+
+  * **Left eye blink** → Left click
+  * **Right eye blink** → Right click
+
+---
+
+## 📐 Eye Aspect Ratio (EAR) Formula
+
+$$
+EAR = \frac{||p2 - p6|| + ||p3 - p5||}{2 \times ||p1 - p4||}
+$$
+
+* Low EAR → Eye closed
+* High EAR → Eye open
+
+---
+
+## ⚠️ Important Notes
+
+* Use project in **well-lit environment**
+* Keep face clearly visible to webcam
+* Avoid fast head movements
+* Recommended distance: **40–70 cm** from camera
+
+---
+
+## 🐞 Common Issues & Fixes
+
+### Webcam not opening
+
+* Close other apps using the camera (Zoom, Teams)
+* Check camera permissions
+* Change `CAMERA_INDEX` in `config.py`
+
+### Cursor shaking
+
+* Increase `SMOOTHING_FACTOR` in `config.py`
+* Improve lighting
+
+### PyAutoGUI fail-safe
+
+* If the mouse moves to a corner, the program stops. This is a safety feature.
+
+---
+
+## 🚀 Future Enhancements
+
+* ML-based gesture classification
+* Voice + eye hybrid control
+* On-screen calibration window
+* Accessibility mode for disabled users
+* Performance optimization for low-end systems
+
+---
+
+## 🎓 Academic Use
+
+This project is suitable for:
+
+* BE / BTech / Diploma final-year project
+* AI-ML & Computer Vision coursework
+* Project demonstration & viva
+
+---
+
+## 👨‍💻 Author
+
+**Samadhan Fuke**
+AI-ML | Computer Vision | Linux | DevOps
+
+---
+
+## 📜 License
+
+This project is for **educational purposes only**.
+
+---
