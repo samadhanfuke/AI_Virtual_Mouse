@@ -52,25 +52,7 @@ To design and develop a real-time, hands-free virtual mouse system that allows u
 ### **3.1 System Architecture**
 The system consists of four main modules: Capture, detection, Processing, and Action.
 
-```mermaid
-graph TD
-    A[Webcam Input] -->|Frame Capture| B(Preprocessing)
-    B -->|Convert to RGB & Flip| C{Face Detection}
-    C -->|No Face| A
-    C -->|Face Detected| D[MediaPipe Face Mesh]
-    D --> E[Landmark Extraction]
-    
-    subgraph Processing
-    E --> F[Iris Tracking]
-    E --> G[Blink Detection]
-    end
-    
-    F -->|Centroid Calculation| H[Cursor Control]
-    G -->|EAR Calculation| I[Click Action]
-    
-    H --> J[PyAutoGUI Mouse Move]
-    I --> K[PyAutoGUI Mouse Click]
-```
+![System Architecture](docs/images/system_architecture.png)
 
 ### **3.2 Data Flow**
 1.  **Input**: Webcam captures video frames (640x480).
@@ -79,6 +61,30 @@ graph TD
 4.  **Logic**:
     *   **Iris**: Landmarks 468-472 (Right) and 473-477 (Left).
     *   **Eyelids**: Upper and Lower eyelid landmarks for blink calculation.
+
+### 3.3 System Modeling (UML Diagrams)
+
+To better understand the system's structure and behavior, the following UML diagrams are designed.
+
+#### **A. Use Case Diagram**
+Describes the interaction between the User (Actor) and the System.
+
+![Use Case Diagram](docs/images/use_case_diagram.png)
+
+#### **B. Class Diagram**
+Represents the static structure and modular design of the code.
+
+![Class Diagram](docs/images/class_diagram.png)
+
+#### **C. Sequence Diagram**
+Illustrates the time-sequence of messages flow during a single frame processing.
+
+![Sequence Diagram](docs/images/sequence_diagram.png)
+
+#### **D. Activity Diagram**
+Shows the dynamic flow of control from start to finish.
+
+![Activity Diagram](docs/images/activity_diagram.png)
 
 ---
 
