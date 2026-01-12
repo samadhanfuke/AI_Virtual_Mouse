@@ -261,6 +261,11 @@ This project is suitable for:
 **Samadhan Fuke**
 AI-ML | Computer Vision | Linux | DevOps
 
+**Senior Software & Platform Engineer** with 4+ years of experience in building scalable, secure, and high-performance systems across Edge AI, virtualization, and cloud-native platforms.
+
+🌐 Edge & ☁️ Cloud Platform Specialist | 🐧 Linux | 🧱 RHEL | 🐍 Python | 🐳 Docker | 🔄 DevOps | 🖥️ Virtualization | 👁️‍🗨️ Computer Vision | ☸️ OpenShift | ⚙️ Kubernetes | 💻 Open Source Technologies
+
+
 ---
 
 ## 📜 License
