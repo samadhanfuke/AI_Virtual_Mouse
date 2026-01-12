@@ -94,7 +94,7 @@ python --version
 ### 🔹 Step 2: Clone or Download Project
 
 ```bash
-git clone https://github.com/your-username/AI_Virtual_Mouse.git
+git clone https://github.com/samadhanfuke/AI_Virtual_Mouse/
 cd AI_Virtual_Mouse
 ```
 
